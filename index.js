@@ -7,7 +7,7 @@ const cors = require("cors");
 app.use(cors());
 app.use(express.json());
 
-const port = process.env.PORT || 5001;
+const port = process.env.PORT || 5000;
 require("dotenv").config();
 
 app.listen(port, () => {
@@ -200,6 +200,13 @@ async function run() {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
       const result = await doctorCollection.deleteOne(query);
+      res.send(result);
+    });
+
+    app.delete("/users/:id", verifyToken, verifyAdmin, async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: ObjectId(id) };
+      const result = await userCollection.deleteOne(query);
       res.send(result);
     });
 
